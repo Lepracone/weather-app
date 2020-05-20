@@ -47,7 +47,7 @@ class App extends Component{
   async handleChange(event){
     const {name, value, type} = event.target
     this.setState({[name]: value})
-    await type === "radio" ? this.getData() : console.log("hello");
+    await type === "radio" ? this.getData() : console.log("");
     this.setState({[name]: value})
     
 
@@ -70,7 +70,7 @@ class App extends Component{
       <div className = "mainContainer">
         <div className = "topbar">
           <div className="units">
-            <label>
+            <label className="units-label">
               <input
                 type="radio"
                 name="units"
@@ -79,7 +79,7 @@ class App extends Component{
                 onChange={this.handleChange}
               />ºC
             </label>
-            <label>
+            <label className="units-label">
               <input
                 type="radio"
                 name="units"
@@ -90,7 +90,7 @@ class App extends Component{
             </label>
           </div>
           
-          
+          <div className="search-bar">
           <input 
             type="text"
             value={this.state.city}
@@ -100,6 +100,7 @@ class App extends Component{
           />
           
           <button onClick={this.getData}><i className="fas fa-search-location"></i></button>
+          </div>
         </div>
 
         {this.state.isFetching? null : (
@@ -119,7 +120,7 @@ class App extends Component{
                   <img className="weatherImage" alt="icon" src={"http://openweathermap.org/img/w/"+ this.state.currentCityWeather.weather[0].icon + ".png" }/>
                   <div>{this.state.currentCityWeather.weather[0].description}</div>
                   <div className="row">
-                    <div><i className="fas fa-wind"></i> {this.state.currentCityWeather.wind.speed} m/s</div>
+                    <div><i className="fas fa-wind"></i> {this.state.currentCityWeather.wind.speed} {this.state.units==="metric" ? "m/s" : "mph"}</div>
                     <div><i className="fas fa-compass"></i> {this.state.currentCityWeather.wind.deg} º</div>
                   </div>
                   <div className="row">
