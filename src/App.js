@@ -20,8 +20,8 @@ class App extends Component{
   getData() {
     const that = this;
     Promise.all([
-      fetch('http://api.openweathermap.org/data/2.5/weather?q='+that.state.city+'&appid=4c77efd9f8291e2531b89885b49ca00e&units='+that.state.units,{mode : 'cors'}),
-      fetch('http://api.openweathermap.org/data/2.5/forecast?q='+that.state.city+'&appid=4c77efd9f8291e2531b89885b49ca00e&units=metric',{mode : 'cors'})
+      fetch('https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?q='+that.state.city+'&appid=4c77efd9f8291e2531b89885b49ca00e&units='+that.state.units,{mode : 'cors'}),
+      fetch('https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/forecast?q='+that.state.city+'&appid=4c77efd9f8291e2531b89885b49ca00e&units=metric',{mode : 'cors'})
     ])
       .then(async([current, forecast]) => {
         const currentWeather = await current.json();
