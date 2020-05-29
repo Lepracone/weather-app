@@ -7,7 +7,6 @@ class App extends Component{
     this.state = {
       city:"Lisbon",
       currentCityWeather:"",
-      predictionWeather:"",
       invisible: true,
       isFetching : true,
       units: "metric"
@@ -21,19 +20,21 @@ class App extends Component{
     const that = this;
     Promise.all([
       fetch('https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?q='+that.state.city+'&appid=4c77efd9f8291e2531b89885b49ca00e&units='+that.state.units,{mode : 'cors'}),
-      fetch('https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/forecast?q='+that.state.city+'&appid=4c77efd9f8291e2531b89885b49ca00e&units=metric',{mode : 'cors'})
-    ])
-      .then(async([current, forecast]) => {
-        const currentWeather = await current.json();
-        const forecastWather = await forecast.json();
-        return [currentWeather, forecastWather]
-      })
 
-      .then(function(response){
-        that.setState({currentCityWeather: response[0]})
-        that.setState({predictionWeather: response[1]})
-        that.setState({isFetching: false})
+    ])
+      .then(async([current]) => {
+        const currentWeather = await current.json();
+        return [currentWeather]
       })
+      .then(function(response){
+        if(parseInt(response[0].cod) === 404){
+          that.setState({city: response[0].message})
+        }else{
+          that.setState({currentCityWeather: response[0]})
+          that.setState({isFetching: false})
+        }
+      })
+      
       .catch(function(error){
         console.log(error)
       })
